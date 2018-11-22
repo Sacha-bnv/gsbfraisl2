@@ -7,7 +7,10 @@ use Illuminate\Support\Facades\Session;
 use App\metier\GsbFrais;
 class ChangerMdpController extends Controller
 {
-    
+    /**
+     * Change le mot de passe du visiteur
+     * @return type Vue formMdp ou home
+     */
     public function changePwd(Request $request){        
         
         $login = session('login');
