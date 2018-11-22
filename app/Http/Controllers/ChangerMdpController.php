@@ -9,7 +9,7 @@ class ChangerMdpController extends Controller
 {
     
     public function changePwd(Request $request){        
-        
+        //Récupérer les variables post
         $login = session('login');
         $pwd = $request->input('pwd_actuel');
         $pwd_nouveau = $request->input('pwd_nouveau');
@@ -17,6 +17,7 @@ class ChangerMdpController extends Controller
         $gsbFrais = new GsbFrais();
         $res = $gsbFrais->getInfosVisiteur($login,$pwd);
         
+        //ajout commentaire
         if(empty($res))
         {
             $erreur = "Mot de passe incorrecte";
