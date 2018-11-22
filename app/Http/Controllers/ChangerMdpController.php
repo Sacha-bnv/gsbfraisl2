@@ -8,8 +8,8 @@ use App\metier\GsbFrais;
 class ChangerMdpController extends Controller
 {
     /**
-     * Change le mot de passe du visiteur
-     * @return type Vue formMdp ou home
+     * Modifie le mot de passe de l'utilisateur
+     * @return type Vue formLogin ou home
      */
     public function changePwd(Request $request){        
         
