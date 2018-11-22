@@ -9,7 +9,7 @@ class ChangerMdpController extends Controller
 {
     
     public function changePwd(Request $request){        
-        
+        // récupérer les variables
         $login = session('login');
         $pwd = $request->input('pwd_actuel');
         $pwd_nouveau = $request->input('pwd_nouveau');
