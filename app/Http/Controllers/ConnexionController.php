@@ -13,7 +13,7 @@ class ConnexionController extends Controller
      */
     public function logIn(Request $request) {
         $login = $request->input('login');
-        $pwd = $request->input('pwd'); 
+        $pwd = md5($request->input('pwd')); 
         $gsbFrais = new GsbFrais();
         $res = $gsbFrais->getInfosVisiteur($login,$pwd);
         if(empty($res)){
