@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Session;
 use Exception;
 use App\metier\GsbFrais;
 
-class VoirFraisController extends Controller
+class getSuiviFraisController extends Controller
 {
      /**
      * Affiche la liste de toutes les fiches
@@ -31,7 +31,16 @@ class VoirFraisController extends Controller
         // On récupère la liste de tous les frais sur une année glissante
         $mesFrais = $unFrais->getLesFrais($id_visiteur, $mois);
         // On affiche la liste de ces frais       
-        return view('listeFrais', compact('mesFrais'));
+        return view('SuiviFrais', compact('mesFrais'));
+    }
+    
+    public function getLesFrais($mois) {
+        $unFrais = new GsbFrais();
+        $id_visiteur = Session::get('id');
+        // On récupère la liste de tous les frais sur une année glissante
+        $mesFrais = $unFrais->getTousLesFrais($mois);
+        // On affiche la liste de ces frais       
+        return view('listeFraisMois', compact('mesFrais'));
     }
   /**
      * Affiche le détail (frais forfait et hors forfait)

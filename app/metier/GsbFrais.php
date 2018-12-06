@@ -226,6 +226,59 @@ public function getInfosVisiteur($login, $mdp){
                 return $lesLignes;
 	}
 /**
+ * Retourne toute les fiches de frais à partir d'un certain mois
+ * @param $idVisiteur 
+ * @param $mois mois début
+ * @return un objet avec les fiches de frais de la dernière année
+*/
+        
+        public function getTousLesFrais($mois){
+		$req = "select * from fichefrais 
+                inner join visiteur on fichefrais.idVisiteur = visiteur.id 
+                where mois = :mois
+		order by fichefrais.mois desc ";
+                $lesLignes = DB::select($req, ['mois'=>$mois]);
+                return $lesLignes;
+	}
+        
+        /**
+ * Retourne les fiches de frais des visiteurs à partir d'un certain mois pour la région du délégué
+ * @param $idVisiteur 
+ * @param $mois mois début
+ * @return un objet avec les fiches de frais de la dernière année
+*/
+        
+        public function getTousLesFraisDel($mois, $region){
+		$req = "select * from fichefrais 
+                inner join visiteur on fichefrais.idVisiteur = visiteur.id
+                inner join travailler on travailler.idVisiteur = visiteur.id
+                inner join region on travailler.tra_reg = region.id
+                inner join secteur on region.sec_code = secteur.id
+                where mois = :mois and region.id = :region
+		order by fichefrais.mois desc ";
+                $lesLignes = DB::select($req, ['mois'=>$mois, 'region'=>$region]);
+                return $lesLignes;
+	}
+        
+ /**
+ * Retourne les fiches de frais des délégués et visiteurs à partir d'un certain mois pour le secteur du responsable
+ * @param $idVisiteur 
+ * @param $mois mois début
+ * @return un objet avec les fiches de frais de la dernière année
+*/
+        
+        public function getTousLesFraisRes($mois, $region){
+		$req = "select * from fichefrais 
+                inner join visiteur on fichefrais.idVisiteur = visiteur.id
+                inner join travailler on travailler.idVisiteur = visiteur.id
+                inner join region on travailler.tra_reg = region.id
+                inner join secteur on region.sec_code = secteur.id
+                where mois = :mois
+		order by fichefrais.mois desc ";
+                $lesLignes = DB::select($req, ['mois'=>$mois, 'region'=>$region]);
+                return $lesLignes;
+	}
+/**
  * Retourne les informations d'une fiche de frais d'un visiteur pour un mois donné
  * @param $idVisiteur 
  * @param $mois sous la forme aaaamm
@@ -256,8 +309,23 @@ public function getInfosVisiteur($login, $mdp){
             where visiteur.id = :idVisiteur";
             DB::update($req, ['mdp'=>$pwdUser, 'idVisiteur'=>$idUser]);
         }
+/** 
+ * Créer un nouveau visiteur dans la table visteur et travailler
+ * @param $idVisiteur 
+ * @param $mois sous la forme aaaamm
+ */
+        public function nouveauVisiteur($nom,$prenom,$adresse,$cp,$ville,$dateEmbauche,$tel,$email,$id,$role,$regionAffectation,$login,$mdp){
+            $req = "update visiteur set nom = :nom, prenom = :prenom, adresse = :adresse, cp = :cp, ville = :ville, dateEmbauche = :dateEmbauche, tel = :tel, email = :email, id = :id, role = :role, regionAffectation = :regionAffectation
+            where visiteur.id = :idVisiteur";
+            DB::update($req, ['nom'=>$nom, 'prenom'=>$prenom, 'adresse'=>$adresse, 'cp'=>$cp, 'ville'=>$ville, 'dateEmbauche'=>$dateEmbauche, 'tel'=>$tel, 'email'=>$email, 'id'=>$id, 'role'=>$role, 'regionAffectation'=>$regionAffectation]);
+        }
         
-        
-        
+ /** 
+ * Permet de récupérer les tables pour la liste déroulante
+ */
+        public function RoleEtRegion(){
+	$req = "select distinct tra_role,reg_nom from  travailler inner join region on travailler.tra_reg = region.id";
+        return $req;
+	}
 }
 ?>

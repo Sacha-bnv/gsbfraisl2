@@ -45,6 +45,8 @@
                             <li><a href="{{ url('/getListeFrais') }}" data-toggle="collapse" data-target=".navbar-collapse.in">Voir Frais</a></li>
                             <li><a href="{{ url('/getValiderFrais') }}" data-toggle="collapse" data-target=".navbar-collapse.in">Valider Fiche Frais</a></li>
                             <li><a href="{{ url('/getChangerMdp') }}" data-toggle="collapse" data-target=".navbar-collapse.in">Changer mdp</a></li>
+                            <li><a href="{{ url('/getSuiviFrais') }}" data-toggle="collapse" data-target=".navbar-collapse.in">Suivre fiche de frais</a></li>
+                            <li><a href="{{ url('/getNewVisiteur') }}" data-toggle="collapse" data-target=".navbar-collapse.in">Nouveau visiteur</a></li>
                         </ul>  
                         <ul class="nav navbar-nav navbar-right">                             
                             <li><a href="{{ url('/Logout') }}" data-toggle="collapse" data-target=".navbar-collapse.in">Se déconnecter</a></li>

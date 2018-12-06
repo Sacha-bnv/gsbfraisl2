@@ -23,6 +23,9 @@ Route::get('/getLogin', function () {
 // Authentifie le visiteur à partir du login et mdp saisis
 Route::post('/login', 'ConnexionController@logIn');
 
+// Afficher les 12 derniers mois afin d'en selectionner un
+Route::get('/getSuiviFrais', 'getSuiviFraisController@getFraisVisiteur');
+
 // Déloguer le visiteur
 Route::get('/Logout', 'ConnexionController@logOut');
 
@@ -46,6 +49,8 @@ Route::get('/getListeFrais', 'VoirFraisController@getFraisVisiteur');
 // Afficher le détail de la fiche de frais pour le mois sélectionné
 Route::get('/voirDetailFrais/{mois}', 'VoirFraisController@voirDetailFrais');
 
+Route::get('/getLesFrais/{mois}', 'getSuiviFraisController@getLesFrais');
+
 // Afficher la liste des frais hors forfait d'une fiche de Frais
 Route::get('/getListeFraisHorsForfait/{mois}', 'FraisHorsForfaitController@getFraisHorsForfait');
 
@@ -65,6 +70,13 @@ Route::get('/supprimerFraisHorsForfait/{idFrais}', 'FraisHorsForfaitController@s
 Route::get('getRetour/{retour}', function($retour){
     return redirect("/".$retour);
 });
+//Afficher le formulaire de nouveau visiteur
+Route::get('/getNewVisiteur', function () {
+   return view ('formNouveauVisiteur');
+});
+
+//Nouveau Visiteur
+Route::post('/nouveauVisiteur', 'NouveauVisiteurController@newVisiteur');
 
 // Afficher la liste des fiches de Frais du visiteur connecté
 Route::get('/getValiderFrais', 'ValiderFicheFraisController@getValiderFrais');
