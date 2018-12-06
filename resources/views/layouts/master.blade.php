@@ -43,6 +43,7 @@
                         <ul class="nav navbar-nav"> 
                             <li><a href="{{ url('/saisirFraisForfait') }}" data-toggle="collapse" data-target=".navbar-collapse.in">Saisir Frais</a></li>
                             <li><a href="{{ url('/getListeFrais') }}" data-toggle="collapse" data-target=".navbar-collapse.in">Voir Frais</a></li>
+                            <li><a href="{{ url('/getValiderFrais') }}" data-toggle="collapse" data-target=".navbar-collapse.in">Valider Fiche Frais</a></li>
                             <li><a href="{{ url('/getChangerMdp') }}" data-toggle="collapse" data-target=".navbar-collapse.in">Changer mdp</a></li>
                         </ul>  
                         <ul class="nav navbar-nav navbar-right">                             

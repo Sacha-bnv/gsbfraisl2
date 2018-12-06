@@ -66,3 +66,8 @@ Route::get('getRetour/{retour}', function($retour){
     return redirect("/".$retour);
 });
 
+// Afficher la liste des fiches de Frais du visiteur connecté
+Route::get('/getValiderFrais', 'ValiderFicheFraisController@getValiderFrais');
+
+//saisirFrais
+Route::post('/ModifierFraisForfait', 'ValiderFicheFraisController@ModifierFraisForfait');
