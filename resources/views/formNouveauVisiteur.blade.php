@@ -7,15 +7,15 @@
         <div class="form-group">
             <label class="col-md-3 control-label">Nom : </label>
             <div class="col-md-6 col-md-3">
-                <input type="text" name="nom" ng-model="nom" class="form-control" placeholder="Votre nom" required>
+                <input type="text" name="nom" ng-model="nom" class="form-control" placeholder="Votre nom" pattern="[A-Za-z]{3,}" required>
             </div>
         </div>
         <div class="form-group">
             <label class="col-md-3 control-label">Prénom : </label>
             <div class="col-md-6 col-md-3">
-                <input type="text" name="prenom" ng-model="prenom" class="form-control" placeholder="Votre prénom" required>
+                <input type="text" name="prenom" ng-model="prenom" class="form-control" placeholder="Votre prénom" pattern="[A-Za-z]{3,}" required>
             </div>
-            <!-- pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"-->
+           
         </div>
         <div class="form-group">
             <label class="col-md-3 control-label">Adresse : </label>
@@ -26,13 +26,13 @@
         <div class="form-group">
             <label class="col-md-3 control-label">Code Postal : </label>
             <div class="col-md-6 col-md-3">
-                <input type="text" name="cp" ng-model="cp" class="form-control" placeholder="Votre code postal" required>
+                <input type="text" name="cp" ng-model="cp" class="form-control" placeholder="Votre code postal" pattern="[0-9]{5}" required>
             </div>
         </div>
         <div class="form-group">
             <label class="col-md-3 control-label">Ville : </label>
             <div class="col-md-6 col-md-3">
-                <input type="text" name="ville" ng-model="ville" class="form-control" placeholder="Votre ville" required>
+                <input type="text" name="ville" ng-model="ville" class="form-control" placeholder="Votre ville" pattern="[A-Za-z]{1,}" required>
             </div>
         </div>
         <div class="form-group">
@@ -44,13 +44,13 @@
         <div class="form-group">
             <label class="col-md-3 control-label">Téléphone : </label>
             <div class="col-md-6 col-md-3">
-                <input type="text" name="tel" ng-model="tel" class="form-control" placeholder="Votre téléphone" required>
+                <input type="text" name="tel" ng-model="tel" class="form-control" placeholder="Votre téléphone" pattern="^(?:0|\(?\+33\)?\s?|0033\s?)[1-79](?:[\.\-\s]?\d\d){4}$" required>
             </div>
         </div>
         <div class="form-group">
             <label class="col-md-3 control-label">Email : </label>
             <div class="col-md-6 col-md-3">
-                <input type="email" name="email" ng-model="email" class="form-control" placeholder="Votre email" required>
+                <input type="email" name="email" ng-model="email" class="form-control" placeholder="Votre email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$" required>
             </div>
         </div>
         <div class="form-group">
