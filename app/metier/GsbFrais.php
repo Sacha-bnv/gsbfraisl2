@@ -256,8 +256,23 @@ public function getInfosVisiteur($login, $mdp){
             where visiteur.id = :idVisiteur";
             DB::update($req, ['mdp'=>$pwdUser, 'idVisiteur'=>$idUser]);
         }
+/** 
+ * Créer un nouveau visiteur dans la table visteur et travailler
+ * @param $idVisiteur 
+ * @param $mois sous la forme aaaamm
+ */
+        public function nouveauVisiteur($nom,$prenom,$adresse,$cp,$ville,$dateEmbauche,$tel,$email,$id,$role,$regionAffectation,$login,$mdp){
+            $req = "update visiteur set nom = :nom, prenom = :prenom, adresse = :adresse, cp = :cp, ville = :ville, dateEmbauche = :dateEmbauche, tel = :tel, email = :email, id = :id, role = :role, regionAffectation = :regionAffectation
+            where visiteur.id = :idVisiteur";
+            DB::update($req, ['nom'=>$nom, 'prenom'=>$prenom, 'adresse'=>$adresse, 'cp'=>$cp, 'ville'=>$ville, 'dateEmbauche'=>$dateEmbauche, 'tel'=>$tel, 'email'=>$email, 'id'=>$id, 'role'=>$role, 'regionAffectation'=>$regionAffectation]);
+        }
         
-        
-        
+ /** 
+ * Permet de récupérer les tables pour la liste déroulante
+ */
+        public function RoleEtRegion(){
+	$req = "select distinct tra_role,reg_nom from  travailler inner join region on travailler.tra_reg = region.id";
+        return $req;
+	}
 }
 ?>

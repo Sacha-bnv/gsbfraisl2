@@ -65,4 +65,11 @@ Route::get('/supprimerFraisHorsForfait/{idFrais}', 'FraisHorsForfaitController@s
 Route::get('getRetour/{retour}', function($retour){
     return redirect("/".$retour);
 });
+//Afficher le formulaire de nouveau visiteur
+Route::get('/getNewVisiteur', function () {
+   return view ('formNouveauVisiteur');
+});
+
+//Nouveau Visiteur
+Route::post('/nouveauVisiteur', 'NouveauVisiteurController@newVisiteur');
 
