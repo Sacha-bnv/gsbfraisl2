@@ -47,7 +47,7 @@ Route::post('/saisirFraisForfait', 'FraisForfaitController@validerFraisForfait')
 Route::get('/getListeFrais', 'VoirFraisController@getFraisVisiteur');
 
 // Afficher le détail de la fiche de frais pour le mois sélectionné
-Route::get('/voirDetailFrais/{mois}', 'VoirFraisController@voirDetailFrais');
+Route::get('/voirDetailFrais/{mois}/{id}', 'VoirFraisController@voirDetailFrais');
 
 Route::get('/getLesFrais/{mois}', 'getSuiviFraisController@getLesFrais');
 
