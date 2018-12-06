@@ -28,7 +28,9 @@ class ConnexionController extends Controller
             $id = $visiteur->id;
             $nom =  $visiteur->nom;
             $prenom = $visiteur->prenom;
+            $role = $visiteur->role;
             Session::put('id', $id);
+            Session::put('role', $role);
             Session::put('nom', $nom);
             Session::put('prenom', $prenom);
             Session::put('login', $login);

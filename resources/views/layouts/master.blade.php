@@ -38,15 +38,19 @@
                     </div>
  
   @else  
-                    <a class="navbar-brand" href="#">{{Session::get('nom')}} {{Session::get('prenom')}}</a> 
+                    <a class="navbar-brand" href="#">{{Session::get('nom')}} {{Session::get('prenom')}} {{Session::get('role')}}</a> 
                     <div class="collapse navbar-collapse" id="navbar-collapse-target">
                         <ul class="nav navbar-nav"> 
                             <li><a href="{{ url('/saisirFraisForfait') }}" data-toggle="collapse" data-target=".navbar-collapse.in">Saisir Frais</a></li>
                             <li><a href="{{ url('/getListeFrais') }}" data-toggle="collapse" data-target=".navbar-collapse.in">Voir Frais</a></li>
+                            @if (Session::get('role') == 'Délégué' || Session::get('role') == 'Responsable')
                             <li><a href="{{ url('/getValiderFrais') }}" data-toggle="collapse" data-target=".navbar-collapse.in">Valider Fiche Frais</a></li>
-                            <li><a href="{{ url('/getChangerMdp') }}" data-toggle="collapse" data-target=".navbar-collapse.in">Changer mdp</a></li>
                             <li><a href="{{ url('/getSuiviFrais') }}" data-toggle="collapse" data-target=".navbar-collapse.in">Suivre fiche de frais</a></li>
+                            @endif
+                            <li><a href="{{ url('/getChangerMdp') }}" data-toggle="collapse" data-target=".navbar-collapse.in">Changer mdp</a></li>
+                            @if (Session::get('role') == 'Responsable')
                             <li><a href="{{ url('/getNewVisiteur') }}" data-toggle="collapse" data-target=".navbar-collapse.in">Nouveau visiteur</a></li>
+                            @endif
                         </ul>  
                         <ul class="nav navbar-nav navbar-right">                             
                             <li><a href="{{ url('/Logout') }}" data-toggle="collapse" data-target=".navbar-collapse.in">Se déconnecter</a></li>
