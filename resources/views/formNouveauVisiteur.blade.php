@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('content')
-{!! Form::open(['url' => 'changerMdp']) !!}  
+{!! Form::open(['url' => 'nouveauVisiteur']) !!}  
 <div class="col-md-12 well well-md">
     <center><h1>Nouveau Visiteur</h1></center>
     <div class="form-horizontal">    
@@ -13,7 +13,7 @@
         <div class="form-group">
             <label class="col-md-3 control-label">Prénom : </label>
             <div class="col-md-6 col-md-3">
-                <input type="text" name="prenom" ng-model="prenom" class="form-control" placeholder="Votre prénom" pattern="[A-Za-z]{3,}" required>
+                <input type="text" name="prenom" ng-model="prenom" class="form-control" placeholder="Votre prénom" pattern="^[A-Za-z-]+$" required>
             </div>
            
         </div>
