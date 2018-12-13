@@ -314,12 +314,17 @@ public function getInfosVisiteur($login, $mdp){
  * @param $idVisiteur 
  * @param $mois sous la forme aaaamm
  */
-        public function nouveauVisiteur($nom,$prenom,$adresse,$cp,$ville,$dateEmbauche,$tel,$email,$id,$role,$regionAffectation,$login,$mdp){
-            $req = "update visiteur set nom = :nom, prenom = :prenom, adresse = :adresse, cp = :cp, ville = :ville, dateEmbauche = :dateEmbauche, tel = :tel, email = :email, id = :id, role = :role, regionAffectation = :regionAffectation
-            where visiteur.id = :idVisiteur";
-            DB::update($req, ['nom'=>$nom, 'prenom'=>$prenom, 'adresse'=>$adresse, 'cp'=>$cp, 'ville'=>$ville, 'dateEmbauche'=>$dateEmbauche, 'tel'=>$tel, 'email'=>$email, 'id'=>$id, 'role'=>$role, 'regionAffectation'=>$regionAffectation]);
+        public function creerNouveauVisiteur($id,$nom,$prenom,$login,$mdp,$adresse,$cp,$ville,$dateEmbauche,$tel,$email){
+            $req = "insert into visiteur(id,nom,prenom,login,mdp,adresse,cp,ville,dateEmbauche,tel,email) 
+		values(:id,:nom,:prenom,:login,:mdp,:adresse,:cp,:ville,:dateEmbauche,:tel,:email)";
+            DB::insert($req, ['id'=>$id,'nom'=>$nom,'prenom'=>$prenom,'login'=>$login,'mdp'=>$mdp,'adresse'=>$adresse,'cp'=>$cp,'ville'=>$ville,'dateEmbauche'=>$dateEmbauche,'tel'=>$tel,'email'=>$email]);
         }
         
+        public function getInfosNouveauVisiteur($id){
+            $req = "select * from visiteur where id = :id";
+            $ligne = DB::select($req, ['id'=>$id]);
+            return $ligne;
+        }
  /** 
  * Permet de récupérer les tables pour la liste déroulante
  */

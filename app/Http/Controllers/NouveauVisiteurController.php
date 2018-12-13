@@ -24,28 +24,36 @@ class NouveauVisiteurController extends Controller
         $role = $request->input('role');
         $regionAffectation = $request->input('regionAffectation');
         
-        $mdp = Hash::make(str_random(6));
+        if (strpos($nom,"-")) {
+            $login = substr($prenom, 0, strpos($nom,"-")-1).$nom;
+        }
+        else{
+
+            $login = substr($prenom, 0, 1).$nom;
+        }
+        
+        $chiffreShuffle = str_shuffle("1234567890");
+        $minusShuffle = str_shuffle("azertyuiopqsdfghjklmwxcvbn");
+        $majShuffle = str_shuffle("AZERTYUIOPQSDFGHJKLMWXCVBN");
+ 
+        //ne prend que les 6 premier caractères 
+        $pass1 = substr($chiffreShuffle,0,1);
+        $pass2 = substr($minusShuffle,0,3);
+        $pass3 = substr($majShuffle,0,2);
+        
+        $pass = $pass1.$pass2.$pass3;
+        $passShuffle = str_shuffle($pass);
+
         
         $gsbFrais = new GsbFrais();
-        $res = $gsbFrais->getInfosVisiteur($nom,$prenom,$adresse,$cp,$ville,$dateEmbauche,$tel,$email,$id,$role,$regionAffectation,$login,$mdp);
-        if(empty($res)){
-            Session::put('id', '0');
-            $erreur = "Login ou mot de passe inconnu !";
-            //Session::flash('erreur', $erreur);
-            // return back()->withInput($request->except('pwd'));
+        $res = $gsbFrais->getInfosNouveauVisiteur($id);
+        if(!empty($res)){
+            $erreur = "ID visiteur existe deja !";
             return back()->with('erreur', $erreur);
         }
         else{
-            $visiteur = $res[0];
-            $id = $visiteur->id;
-            $nom =  $visiteur->nom;
-            $prenom = $visiteur->prenom;
-            Session::put('id', $id);
-            Session::put('nom', $nom);
-            Session::put('prenom', $prenom);
-            Session::put('login', $login);
-//            return view('home');
-            return redirect('/');
+            $gsbFrais->creerNouveauVisiteur($id,$nom,$prenom,$login,$passShuffle,$adresse,$cp,$ville,$dateEmbauche,$tel,$email);
+            return back()->with('status', "Mise à jour effectué, Login: "+$login+" Mdp: "+$passShuffle);
         }
         
     }
