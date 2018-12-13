@@ -13,7 +13,7 @@ class ConnexionController extends Controller
      */
     public function logIn(Request $request) {
         $login = $request->input('login');
-        $pwd = md5($request->input('pwd'));
+        $pwd = $request->input('pwd');
         $gsbFrais = new GsbFrais();
         $res = $gsbFrais->getInfosVisiteur($login,$pwd);
         if(empty($res)){
@@ -29,11 +29,15 @@ class ConnexionController extends Controller
             $nom =  $visiteur->nom;
             $prenom = $visiteur->prenom;
             $role = $visiteur->role;
+            $region = $visiteur->region;
+            $secteur = $visiteur->secteur;
             Session::put('id', $id);
             Session::put('role', $role);
             Session::put('nom', $nom);
             Session::put('prenom', $prenom);
             Session::put('login', $login);
+            Session::put('region', $region);
+            Session::put('secteur', $secteur);
 //            return view('home');
             return redirect('/');
         }

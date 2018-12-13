@@ -14,19 +14,20 @@ class ChangerMdpController extends Controller
     public function changePwd(Request $request){        
         // récupérer les variables
         $login = session('login');
-        $pwd = $request->input('pwd_actuel');
-        $pwd_nouveau = $request->input('pwd_nouveau');
-        $pwd_confirmer = $request->input('pwd_confirmer');
+        $pwd = md5($request->input('pwd_actuel'));
+        $pwd_nouveau = md5($request->input('pwd_nouveau'));
+        $pwd_confirmer = md5($request->input('pwd_confirmer'));
         $gsbFrais = new GsbFrais();
         $res = $gsbFrais->getInfosVisiteur($login,$pwd);
         
         //ajout commentaire
         if(empty($res))
         {
-            $erreur = "Mot de passe incorrecte";
-            return back()->with('erreur', $erreur);
+            //$erreur = "Mot de passe incorrecte";
+            //return back()->with('erreur', $erreur);
+            //return redirect('/');
         }
-        else if($pwd_nouveau == $pwd)
+        else if($pwd == $pwd_nouveau)
         {
             $erreur = "Votre mot de passe doit être différent de l'ancien";   
             return back()->with('erreur', $erreur);
@@ -40,9 +41,9 @@ class ChangerMdpController extends Controller
         {
             $visiteur = $res[0];
             $id = $visiteur->id;
-            //$gsbFrais->majMotDePasse($id, $pwd_nouveau);
-            return redirect('/');
-            //return back()->with('status', 'Mise à jour effectuée!');
+            $gsbFrais->majMotDePasse($id, $pwd_nouveau);
+            //return redirect('/');
+            return back()->with('status', 'Mise à jour effectuée!');
         }
         
     }

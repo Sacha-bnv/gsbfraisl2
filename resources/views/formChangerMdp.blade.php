@@ -13,14 +13,14 @@
         <div class="form-group">
             <label class="col-md-3 control-label">Nouveau mot de passe : </label>
             <div class="col-md-6 col-md-3">
-                <input type="password" name="pwd_nouveau" ng-model="pwd" class="form-control" placeholder="Votre mot de passe" required>
+                <input pattern="(?=^.{6}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" type="password" name="pwd_nouveau" ng-model="pwd" class="form-control" placeholder="Votre mot de passe" required>
             </div>
             <!-- pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"-->
         </div>
         <div class="form-group">
             <label class="col-md-3 control-label">Confirmer mot de passe : </label>
             <div class="col-md-6 col-md-3">
-                <input type="password" name="pwd_confirmer" ng-model="pwd" class="form-control" placeholder="Votre mot de passe" required>
+                <input pattern="(?=^.{6}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" type="password" name="pwd_confirmer" ng-model="pwd" class="form-control" placeholder="Votre mot de passe" required>
             </div>
         </div>
         <div class="form-group">
