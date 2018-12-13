@@ -225,21 +225,6 @@ public function getInfosVisiteur($login, $mdp){
                 $lesLignes = DB::select($req, ['idVisiteur'=>$idVisiteur, 'mois'=>$mois]);
                 return $lesLignes;
 	}
-/**
- * Retourne toute les fiches de frais à partir d'un certain mois
- * @param $idVisiteur 
- * @param $mois mois début
- * @return un objet avec les fiches de frais de la dernière année
-*/
-        
-        public function getTousLesFrais($mois){
-		$req = "select * from fichefrais 
-                inner join visiteur on fichefrais.idVisiteur = visiteur.id 
-                where mois = :mois
-		order by fichefrais.mois desc ";
-                $lesLignes = DB::select($req, ['mois'=>$mois]);
-                return $lesLignes;
-	}
         
         /**
  * Retourne les fiches de frais des visiteurs à partir d'un certain mois pour la région du délégué
@@ -248,15 +233,15 @@ public function getInfosVisiteur($login, $mdp){
  * @return un objet avec les fiches de frais de la dernière année
 */
         
-        public function getTousLesFraisDel($mois, $region){
-		$req = "select * from fichefrais 
-                inner join visiteur on fichefrais.idVisiteur = visiteur.id
-                inner join travailler on travailler.idVisiteur = visiteur.id
-                inner join region on travailler.tra_reg = region.id
-                inner join secteur on region.sec_code = secteur.id
-                where mois = :mois and region.id = :region
-		order by fichefrais.mois desc ";
-                $lesLignes = DB::select($req, ['mois'=>$mois, 'region'=>$region]);
+        public function getTousLesFraisDel($mois, $id){
+		$req = "select DISTINCT visiteur.nom, visiteur.prenom, mois, nbJustificatifs, montantValide, idEtat, visiteur.id from fichefrais 
+                            inner join visiteur on fichefrais.idVisiteur = visiteur.id
+                            inner join travailler on travailler.idVisiteur = visiteur.id
+                            inner join region on travailler.tra_reg = region.id
+                            inner join secteur on region.sec_code = secteur.id
+                            where mois = :mois and visiteur.id in (SELECT idVisiteur from vaffectation where tra_reg = (SELECT tra_reg FROM vaffectation WHERE idVisiteur = :id) and tra_role = 'Visiteur') 
+                            order by fichefrais.mois desc";
+                $lesLignes = DB::select($req, ['mois'=>$mois, 'id'=>$id]);
                 return $lesLignes;
 	}
         
@@ -267,15 +252,15 @@ public function getInfosVisiteur($login, $mdp){
  * @return un objet avec les fiches de frais de la dernière année
 */
         
-        public function getTousLesFraisRes($mois, $region){
-		$req = "select * from fichefrais 
-                inner join visiteur on fichefrais.idVisiteur = visiteur.id
-                inner join travailler on travailler.idVisiteur = visiteur.id
-                inner join region on travailler.tra_reg = region.id
-                inner join secteur on region.sec_code = secteur.id
-                where mois = :mois
-		order by fichefrais.mois desc ";
-                $lesLignes = DB::select($req, ['mois'=>$mois, 'region'=>$region]);
+        public function getTousLesFraisRes($mois, $id){
+		$req = "select DISTINCT visiteur.nom, visiteur.prenom, mois, nbJustificatifs, montantValide, idEtat, visiteur.id from fichefrais 
+                            inner join visiteur on fichefrais.idVisiteur = visiteur.id
+                            inner join travailler on travailler.idVisiteur = visiteur.id
+                            inner join region on travailler.tra_reg = region.id
+                            inner join secteur on region.sec_code = secteur.id
+                            where mois = :mois and visiteur.id in (SELECT idVisiteur from vaffectation where sec_code = (SELECT sec_code FROM vaffectation WHERE idVisiteur = :id) and tra_role != 'Responsable')
+                            order by fichefrais.mois desc";
+                $lesLignes = DB::select($req, ['mois'=>$mois, 'id'=>$id]);
                 return $lesLignes;
 	}
 /**
