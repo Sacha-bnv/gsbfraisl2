@@ -37,9 +37,16 @@ class getSuiviFraisController extends Controller
     public function getLesFrais($mois) {
         $unFrais = new GsbFrais();
         $id_visiteur = Session::get('id');
+        $role = Session::get('role');
+        $id = Session::get('id');    
         // On récupère la liste de tous les frais sur une année glissante
-        $mesFrais = $unFrais->getTousLesFrais($mois);
-        // On affiche la liste de ces frais       
+        if ($role == "Délégué") {
+            $mesFrais = $unFrais->getTousLesFraisDel($mois, $id);
+        }
+        else {
+            $mesFrais = $unFrais->getTousLesFraisRes($mois, $id);
+        }
+        // On affiche la liste de ces frais
         return view('listeFraisMois', compact('mesFrais'));
     }
   /**
