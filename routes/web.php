@@ -79,7 +79,7 @@ Route::get('/getNewVisiteur', function () {
 Route::post('/nouveauVisiteur', 'NouveauVisiteurController@newVisiteur');
 
 // Afficher la liste des fiches de Frais du visiteur connecté
-Route::get('/getValiderFrais', 'ValiderFicheFraisController@getValiderFrais');
+Route::get('/getValiderFrais', 'ValiderFicheFraisController@getVisiteurValiderFrais');
 
 //saisirFrais
 Route::post('/ModifierFraisForfait', 'ValiderFicheFraisController@ModifierFraisForfait');

@@ -52,7 +52,7 @@ public function getInfosVisiteur($login, $mdp){
 	public function getLesFraisForfait($idVisiteur, $mois){
 		$req = "select fraisforfait.id as idfrais, fraisforfait.libelle as libelle, ligneFraisForfait.mois as mois,
 		lignefraisforfait.quantite as quantite from lignefraisforfait inner join fraisforfait 
-		on fraisforfait.id = lignefraisforfait.idfraisforfait
+		on fraisforfait.id = lignefraisforfait.idFraisForfait
 		where lignefraisforfait.idvisiteur = :idVisiteur and lignefraisforfait.mois=:mois
 		order by lignefraisforfait.idfraisforfait";	
 //                echo $req;
@@ -317,5 +317,15 @@ public function getInfosVisiteur($login, $mdp){
 	$req = "select distinct tra_role,reg_nom from  travailler inner join region on travailler.tra_reg = region.id";
         return $req;
 	}
+        
+        public function getVisiteurRegion($region){
+	$req = "select * from  vaffectation where reg_nom = :region";
+        $ligne = DB::select($req, ['region'=>$region]);
+        return $req;
+	}
+        
+        
+        
+        
 }
 ?>

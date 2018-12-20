@@ -21,7 +21,7 @@
                 <td> {{ $unFrais->nbJustificatifs }} </td> 
                 <td> {{ $unFrais->montantValide }} </td> 
                 <td> {{ $unFrais->idEtat }} </td> 
-                <td style="text-align:center;"><a href="{{ url('/voirDetailFrais') }}/{{ $unFrais->mois }}">
+                <td style="text-align:center;"><a href="{{ url('/voirDetailFrais') }}/{{ $unFrais->mois }}/a131">
                         <span class="glyphicon glyphicon-eye-open" data-toggle="tooltip" data-placement="top" title="Voir"></span></a></td>
             </tr>
             @endforeach

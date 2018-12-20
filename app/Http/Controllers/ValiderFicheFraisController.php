@@ -25,6 +25,9 @@ class ValiderFicheFraisController extends Controller
         // On affiche la liste de ces frais       
         return view('validerFicheFrais', compact('mesFrais'));
     }
+    
+    
+  
     public function ModifierFraisForfait() {
         $date = date("d/m/Y");
         $numAnnee =substr( $date,6,4);
@@ -41,4 +44,12 @@ class ValiderFicheFraisController extends Controller
         // la fonction compact équivaut à array('lesFrais' => $lesFrais, ...) 
         return redirect()->back()->with('status', 'Modification efféctuée!');
     }
+    
+      public function getVisiteurValiderFrais() {
+        $gsbFrais = new GsbFrais();
+        $region=Session::get('region');
+        $visiteurs=$gsbFrais->getVisiteurRegion($region);
+        return view('listFraisVisiteur', compact('visiteurs'));
+    }
+    
 }
