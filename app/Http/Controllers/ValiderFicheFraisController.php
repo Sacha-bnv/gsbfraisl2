@@ -46,10 +46,12 @@ class ValiderFicheFraisController extends Controller
     }
     
       public function getVisiteurValiderFrais() {
-        $gsbFrais = new GsbFrais();
-        $region=Session::get('region');
-        $visiteurs=$gsbFrais->getVisiteurRegion($region);
-        return view('listFraisVisiteur', compact('visiteurs'));
+        $gsbfrais = new GsbFrais();
+        //$region= Session::get('region');
+        $region=  Session::get('region');
+        $visiteurs=$gsbfrais->getVisiteurRegion($region);
+        print_r($visiteurs);
+        return view('listeFraisVisiteur', compact('visiteurs'));
     }
     
 }

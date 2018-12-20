@@ -319,9 +319,11 @@ public function getInfosVisiteur($login, $mdp){
 	}
         
         public function getVisiteurRegion($region){
-	$req = "select * from  vaffectation where reg_nom = :region";
+	$req = "select * from  vaffectation INNER join fichefrais on vaffectation.idVisiteur=fichefrais.idVisiteur where vaffectation.reg_nom = :region and fichefrais.idEtat like 'CL'  GROUP by fichefrais.idVisiteur"  ;
+        echo $req;
         $ligne = DB::select($req, ['region'=>$region]);
-        return $req;
+        //$ligne = DB::select($req);
+        return $ligne;
 	}
         
         
