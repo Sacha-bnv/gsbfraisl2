@@ -305,6 +305,12 @@ public function getInfosVisiteur($login, $mdp){
             DB::insert($req, ['id'=>$id,'nom'=>$nom,'prenom'=>$prenom,'login'=>$login,'mdp'=>$mdp,'adresse'=>$adresse,'cp'=>$cp,'ville'=>$ville,'dateEmbauche'=>$dateEmbauche,'tel'=>$tel,'email'=>$email]);
         }
         
+        public function creerNouveauTravailler($idVisiteur,$tra_date,$tra_reg,$tra_role){
+            $req = "insert into travailler(idVisiteur,tra_date,tra_reg,tra_role)
+                    values(:idVisiteur,:tra_date,:tra_reg,:tra_role)";
+            DB::insert($req, ['idVisiteur'=>$idVisiteur, 'tra_date'=>$tra_date, 'tra_reg'=>$tra_reg, 'tra_role'=>$tra_role]);
+        }
+        
         public function getInfosNouveauVisiteur($id){
             $req = "select * from visiteur where id = :id";
             $ligne = DB::select($req, ['id'=>$id]);
@@ -313,9 +319,25 @@ public function getInfosVisiteur($login, $mdp){
  /** 
  * Permet de récupérer les tables pour la liste déroulante
  */
-        public function RoleEtRegion(){
-	$req = "select distinct tra_role,reg_nom from  travailler inner join region on travailler.tra_reg = region.id";
-        return $req;
+        public function getRegions($sec_code){
+	$req = "select id,reg_nom from region where sec_code = :sec_code";
+        $ligne = DB::select($req, ['sec_code'=>$sec_code]);
+        return $ligne;
 	}
+        
+/** 
+ * modifier un nouveau visiteur dans la table visteur
+ */
+        public function modifierNouveauVisiteur($id,$adresse,$cp,$ville,$tel,$email){
+        $req = "update visiteur set adresse = :adresse, cp = :cp, ville = :ville, tel = :tel, email = :email
+		where id = :id";
+		DB::update($req, ['adresse'=>$adresse, 'cp'=>$cp, 'ville'=>$ville, 'tel'=>$tel, 'email'=>$email, 'id'=>$id]);
+        }
+        
+        public function infosModifierNouveauVisiteur($id){
+        $req = "select adresse,cp,ville,tel,email from visiteur where id = :id";
+	$ligne = DB::select($req, ['id'=>$id]);
+        return $ligne;
+        }
 }
 ?>

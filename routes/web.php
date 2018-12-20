@@ -70,16 +70,25 @@ Route::get('/supprimerFraisHorsForfait/{idFrais}', 'FraisHorsForfaitController@s
 Route::get('getRetour/{retour}', function($retour){
     return redirect("/".$retour);
 });
-//Afficher le formulaire de nouveau visiteur
-Route::get('/getNewVisiteur', function () {
-   return view ('formNouveauVisiteur');
-});
 
 //Nouveau Visiteur
 Route::post('/nouveauVisiteur', 'NouveauVisiteurController@newVisiteur');
+
+//Nouveau Visiteur Region
+Route::get('/nouveauVisiteur', 'NouveauVisiteurController@getlesRegions');
 
 // Afficher la liste des fiches de Frais du visiteur connecté
 Route::get('/getValiderFrais', 'ValiderFicheFraisController@getValiderFrais');
 
 //saisirFrais
 Route::post('/ModifierFraisForfait', 'ValiderFicheFraisController@ModifierFraisForfait');
+
+//Afficher le formulaire de la modifications personnelles
+Route::get('/getModifications', function () {
+   return view ('formModificationsVisiteur');
+});
+
+Route::get('/getModifications','ModificationsVisiteurController@initVisiteur');
+
+//Nouveau Visiteur
+Route::post('/modificationsVisiteur', 'ModificationsVisiteurController@modifVisiteur');
