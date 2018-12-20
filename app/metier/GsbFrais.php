@@ -314,8 +314,8 @@ public function getInfosVisiteur($login, $mdp){
  * Permet de récupérer les tables pour la liste déroulante
  */
         public function RoleEtRegion(){
-	$req = "select distinct tra_role,reg_nom from  travailler inner join region on travailler.tra_reg = region.id";
-        return $req;
+            $req = "select distinct tra_role,reg_nom from  travailler inner join region on travailler.tra_reg = region.id";
+            return $req;
 	}
 }
 ?>

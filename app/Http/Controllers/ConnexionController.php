@@ -30,7 +30,7 @@ class ConnexionController extends Controller
             $prenom = $visiteur->prenom;
             $role = $visiteur->role;
             $region = $visiteur->region;
-            $secteur = $visiteur->sec_nom;
+            $sec_nom = $visiteur->sec_nom;
             $sec_code = $visiteur->sec_code;
             $reg_code = $visiteur->reg_code;
             Session::put('id', $id);
@@ -40,7 +40,7 @@ class ConnexionController extends Controller
             Session::put('login', $login);
             Session::put('region', $region);
             Session::put('reg_code', $reg_code);
-            Session::put('sec_nom', $secteur);
+            Session::put('sec_nom', $sec_nom);
             Session::put('sec_code', $sec_code);
 //            return view('home');
             return redirect('/');

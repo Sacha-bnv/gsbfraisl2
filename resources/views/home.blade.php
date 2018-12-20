@@ -9,7 +9,7 @@
 <div>
     <h4>Votre région: {{Session::get('region')}}</h4>
     <h4>Votre code région: {{Session::get('reg_code')}}</h4>
-    <h4>Votre secteur: {{Session::get('secteur')}}</h4>
+    <h4>Votre secteur: {{Session::get('sec_nom')}}</h4>
     <h4>Votre code secteur: {{Session::get('sec_code')}}</h4>
     
 </div>
