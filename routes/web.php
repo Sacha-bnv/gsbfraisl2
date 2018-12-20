@@ -26,6 +26,9 @@ Route::post('/login', 'ConnexionController@logIn');
 // Afficher les 12 derniers mois afin d'en selectionner un
 Route::get('/getSuiviFrais', 'getSuiviFraisController@getFraisVisiteur');
 
+// Afficher la liste des visiteurs et délégués de la région d'un responsable
+Route::get('/getGererVisiteurs', 'getGererVisiteurController@getVisiteurSecteur');
+
 // Déloguer le visiteur
 Route::get('/Logout', 'ConnexionController@logOut');
 
@@ -37,6 +40,9 @@ Route::get('/getChangerMdp', function () {
 //Changer de mot de passe
 Route::post('/changerMdp', 'ChangerMdpController@changePwd');
 
+//Modifier la région et/ou le rôle
+Route::post('/creerAffectation', 'getGererVisiteurController@creerAffectation');
+
 //saisirFrais
 Route::get('/saisirFraisForfait', 'FraisForfaitController@saisirFraisForfait');
 
@@ -47,9 +53,11 @@ Route::post('/saisirFraisForfait', 'FraisForfaitController@validerFraisForfait')
 Route::get('/getListeFrais', 'VoirFraisController@getFraisVisiteur');
 
 // Afficher le détail de la fiche de frais pour le mois sélectionné
-Route::get('/voirDetailFrais/{mois}/{id}', 'VoirFraisController@voirDetailFrais');
+Route::get('/voirDetailFrais/{mois}', 'VoirFraisController@voirDetailFrais');
 
 Route::get('/getLesFrais/{mois}', 'getSuiviFraisController@getLesFrais');
+
+Route::get('/getUnVisiteur/{id}', 'getGererVisiteurController@getUnVisiteur');
 
 // Afficher la liste des frais hors forfait d'une fiche de Frais
 Route::get('/getListeFraisHorsForfait/{mois}', 'FraisHorsForfaitController@getFraisHorsForfait');
@@ -70,16 +78,25 @@ Route::get('/supprimerFraisHorsForfait/{idFrais}', 'FraisHorsForfaitController@s
 Route::get('getRetour/{retour}', function($retour){
     return redirect("/".$retour);
 });
-//Afficher le formulaire de nouveau visiteur
-Route::get('/getNewVisiteur', function () {
-   return view ('formNouveauVisiteur');
-});
 
 //Nouveau Visiteur
 Route::post('/nouveauVisiteur', 'NouveauVisiteurController@newVisiteur');
+
+//Nouveau Visiteur Region
+Route::get('/nouveauVisiteur', 'NouveauVisiteurController@getlesRegions');
 
 // Afficher la liste des fiches de Frais du visiteur connecté
 Route::get('/getValiderFrais', 'ValiderFicheFraisController@getVisiteurValiderFrais');
 
 //saisirFrais
 Route::post('/ModifierFraisForfait', 'ValiderFicheFraisController@ModifierFraisForfait');
+
+//Afficher le formulaire de la modifications personnelles
+Route::get('/getModifications', function () {
+   return view ('formModificationsVisiteur');
+});
+
+Route::get('/getModifications','ModificationsVisiteurController@initVisiteur');
+
+//Nouveau Visiteur
+Route::post('/modificationsVisiteur', 'ModificationsVisiteurController@modifVisiteur');

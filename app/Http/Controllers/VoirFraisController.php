@@ -37,9 +37,9 @@ class VoirFraisController extends Controller
      * Affiche le détail (frais forfait et hors forfait)
      * @return type Vue detailFrais
      */ 
-  public function voirDetailFrais($mois, $id){
+  public function voirDetailFrais($mois){
       $gsbFrais = new GsbFrais();
-      $idVisiteur = $id;
+      $idVisiteur = Session::get('id');
       $lesFraisForfait = $gsbFrais->getLesFraisForfait($idVisiteur, $mois);
       $lesFraisHorsForfait = $gsbFrais->getLesFraisHorsForfait($idVisiteur, $mois);
       $montantTotal = 0;
