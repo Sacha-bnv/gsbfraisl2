@@ -263,6 +263,48 @@ public function getInfosVisiteur($login, $mdp){
                 $lesLignes = DB::select($req, ['mois'=>$mois, 'id'=>$id]);
                 return $lesLignes;
 	}
+        
+         /**
+ * Retourne le nom et prenom des visiteurs et délégués de la même région du responsable
+ * @param $id 
+ * @return un objet avec les fiches de frais de la dernière année
+*/
+        
+        public function getVisiteursSecteur($id){
+		$req = "SELECT id, nom, prenom FROM visiteur WHERE id in (SELECT idVisiteur FROM vaffectation WHERE sec_code =
+                        (SELECT sec_code FROM vaffectation WHERE idVisiteur = :id)
+                        && tra_role != 'Responsable')";
+                $lesLignes = DB::select($req, ['id'=>$id]);
+                return $lesLignes;
+	}
+        
+        /**
+ * Retourne le nom et prenom, region, rôle d'un visiteur séléctionné
+ * @param $id 
+ * @return un objet avec les infos d'un visiteur
+*/
+        
+        public function getGererInfosVisiteur($id){
+		$req = "SELECT nom, prenom, tra_reg, tra_role FROM vaffectation
+                        INNER JOIN visiteur ON visiteur.id = vaffectation.idVisiteur
+                        WHERE idVisiteur = :id";
+                $lesLignes = DB::select($req, ['id'=>$id]);
+                return $lesLignes;
+	}
+        
+        /**
+ * Retourne les regions appartenant à un secteur
+ * @param $secteur 
+ * @return un objet avec les noms des régions
+*/
+        
+        public function getRegion($secteur){
+		$req = "SELECT reg_nom, region.id as reg_id from region
+                        INNER JOIN secteur on secteur.id = region.sec_code
+                        WHERE secteur.sec_nom = :secteur";
+                $lesLignes = DB::select($req, ['secteur'=>$secteur]);
+                return $lesLignes;
+	}
 /**
  * Retourne les informations d'une fiche de frais d'un visiteur pour un mois donné
  * @param $idVisiteur 
@@ -294,6 +336,12 @@ public function getInfosVisiteur($login, $mdp){
             where visiteur.id = :idVisiteur";
             DB::update($req, ['mdp'=>$pwdUser, 'idVisiteur'=>$idUser]);
         }
+
+        public function creerAffectation($id, $role, $region){
+		$req = "INSERT INTO travailler VALUES (:id, DATE(now()), :region, :role)";
+                $lesLignes = DB::select($req, ['id'=>$id, 'role'=>$role, 'region'=>$region]);
+                return $lesLignes;
+	}
 /** 
  * Créer un nouveau visiteur dans la table visteur et travailler
  * @param $idVisiteur 
