@@ -11,6 +11,14 @@ class NouveauVisiteurController extends Controller
      * Modifie le mot de passe de l'utilisateur
      * @return type Vue formLogin ou home
      */
+    public function getlesRegions(){
+        
+        $sec_code = session::get('sec_code');
+        $gsbFrais = new GsbFrais();
+        $lesregions = $gsbFrais->getRegions($sec_code);
+        return view('formNouveauVisiteur', compact('lesregions'));
+        
+    }
     public function newVisiteur(Request $request){        
         $nom = $request->input('nom');
         $prenom = $request->input('prenom');
@@ -22,7 +30,9 @@ class NouveauVisiteurController extends Controller
         $email = $request->input('email');
         $id = $request->input('id');
         $role = $request->input('role');
-        $regionAffectation = $request->input('regionAffectation');
+        $region = $request->input('region');
+        
+       
         
         if (strpos($nom,"-")) {
             $login = substr($prenom, 0, strpos($nom,"-")-1).$nom;
@@ -32,6 +42,7 @@ class NouveauVisiteurController extends Controller
             $login = substr($prenom, 0, 1).$nom;
         }
         
+        //mdp aléatoire 
         $chiffreShuffle = str_shuffle("1234567890");
         $minusShuffle = str_shuffle("azertyuiopqsdfghjklmwxcvbn");
         $majShuffle = str_shuffle("AZERTYUIOPQSDFGHJKLMWXCVBN");
@@ -43,18 +54,29 @@ class NouveauVisiteurController extends Controller
         
         $pass = $pass1.$pass2.$pass3;
         $passShuffle = str_shuffle($pass);
+        
+        $today = date("Y-m-d");
 
         
         $gsbFrais = new GsbFrais();
         $res = $gsbFrais->getInfosNouveauVisiteur($id);
-        if(!empty($res)){
+        
+        if ($res) {
             $erreur = "ID visiteur existe deja !";
             return back()->with('erreur', $erreur);
+            
         }
         else{
-            $gsbFrais->creerNouveauVisiteur($id,$nom,$prenom,$login,$passShuffle,$adresse,$cp,$ville,$dateEmbauche,$tel,$email);
-            return back()->with('status', "Mise à jour effectué, Login: "+$login+" Mdp: "+$passShuffle);
+            $gsbFrais->creerNouveauVisiteur($id,$nom,$prenom,$login,MD5($passShuffle),$adresse,$cp,$ville,$dateEmbauche,$tel,$email);
+            $gsbFrais->creerNouveauTravailler($id,$today,$region,$role);
+            return back()->with('status', "Mise à jour effectué, Login: $login Mdp: $passShuffle");
         }
+        
+           
+            
+
+            
+
         
     }
 }

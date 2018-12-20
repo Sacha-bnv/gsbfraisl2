@@ -263,6 +263,48 @@ public function getInfosVisiteur($login, $mdp){
                 $lesLignes = DB::select($req, ['mois'=>$mois, 'id'=>$id]);
                 return $lesLignes;
 	}
+        
+         /**
+ * Retourne le nom et prenom des visiteurs et délégués de la même région du responsable
+ * @param $id 
+ * @return un objet avec les fiches de frais de la dernière année
+*/
+        
+        public function getVisiteursSecteur($id){
+		$req = "SELECT id, nom, prenom FROM visiteur WHERE id in (SELECT idVisiteur FROM vaffectation WHERE sec_code =
+                        (SELECT sec_code FROM vaffectation WHERE idVisiteur = :id)
+                        && tra_role != 'Responsable')";
+                $lesLignes = DB::select($req, ['id'=>$id]);
+                return $lesLignes;
+	}
+        
+        /**
+ * Retourne le nom et prenom, region, rôle d'un visiteur séléctionné
+ * @param $id 
+ * @return un objet avec les infos d'un visiteur
+*/
+        
+        public function getGererInfosVisiteur($id){
+		$req = "SELECT nom, prenom, tra_reg, tra_role FROM vaffectation
+                        INNER JOIN visiteur ON visiteur.id = vaffectation.idVisiteur
+                        WHERE idVisiteur = :id";
+                $lesLignes = DB::select($req, ['id'=>$id]);
+                return $lesLignes;
+	}
+        
+        /**
+ * Retourne les regions appartenant à un secteur
+ * @param $secteur 
+ * @return un objet avec les noms des régions
+*/
+        
+        public function getRegion($secteur){
+		$req = "SELECT reg_nom, region.id as reg_id from region
+                        INNER JOIN secteur on secteur.id = region.sec_code
+                        WHERE secteur.sec_nom = :secteur";
+                $lesLignes = DB::select($req, ['secteur'=>$secteur]);
+                return $lesLignes;
+	}
 /**
  * Retourne les informations d'une fiche de frais d'un visiteur pour un mois donné
  * @param $idVisiteur 
@@ -294,6 +336,12 @@ public function getInfosVisiteur($login, $mdp){
             where visiteur.id = :idVisiteur";
             DB::update($req, ['mdp'=>$pwdUser, 'idVisiteur'=>$idUser]);
         }
+
+        public function creerAffectation($id, $role, $region){
+		$req = "INSERT INTO travailler VALUES (:id, DATE(now()), :region, :role)";
+                $lesLignes = DB::select($req, ['id'=>$id, 'role'=>$role, 'region'=>$region]);
+                return $lesLignes;
+	}
 /** 
  * Créer un nouveau visiteur dans la table visteur et travailler
  * @param $idVisiteur 
@@ -305,6 +353,12 @@ public function getInfosVisiteur($login, $mdp){
             DB::insert($req, ['id'=>$id,'nom'=>$nom,'prenom'=>$prenom,'login'=>$login,'mdp'=>$mdp,'adresse'=>$adresse,'cp'=>$cp,'ville'=>$ville,'dateEmbauche'=>$dateEmbauche,'tel'=>$tel,'email'=>$email]);
         }
         
+        public function creerNouveauTravailler($idVisiteur,$tra_date,$tra_reg,$tra_role){
+            $req = "insert into travailler(idVisiteur,tra_date,tra_reg,tra_role)
+                    values(:idVisiteur,:tra_date,:tra_reg,:tra_role)";
+            DB::insert($req, ['idVisiteur'=>$idVisiteur, 'tra_date'=>$tra_date, 'tra_reg'=>$tra_reg, 'tra_role'=>$tra_role]);
+        }
+        
         public function getInfosNouveauVisiteur($id){
             $req = "select * from visiteur where id = :id";
             $ligne = DB::select($req, ['id'=>$id]);
@@ -313,9 +367,29 @@ public function getInfosVisiteur($login, $mdp){
  /** 
  * Permet de récupérer les tables pour la liste déroulante
  */
+        public function getRegions($sec_code){
+	$req = "select id,reg_nom from region where sec_code = :sec_code";
+        $ligne = DB::select($req, ['sec_code'=>$sec_code]);
+        return $ligne;
+        }
         public function RoleEtRegion(){
             $req = "select distinct tra_role,reg_nom from  travailler inner join region on travailler.tra_reg = region.id";
             return $req;
 	}
+        
+/** 
+ * modifier un nouveau visiteur dans la table visteur
+ */
+        public function modifierNouveauVisiteur($id,$adresse,$cp,$ville,$tel,$email){
+        $req = "update visiteur set adresse = :adresse, cp = :cp, ville = :ville, tel = :tel, email = :email
+		where id = :id";
+		DB::update($req, ['adresse'=>$adresse, 'cp'=>$cp, 'ville'=>$ville, 'tel'=>$tel, 'email'=>$email, 'id'=>$id]);
+        }
+        
+        public function infosModifierNouveauVisiteur($id){
+        $req = "select adresse,cp,ville,tel,email from visiteur where id = :id";
+	$ligne = DB::select($req, ['id'=>$id]);
+        return $ligne;
+        }
 }
 ?>
