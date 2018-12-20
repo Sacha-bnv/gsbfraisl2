@@ -14,17 +14,17 @@ class ChangerMdpController extends Controller
     public function changePwd(Request $request){        
         // récupérer les variables
         $login = session('login');
-        $pwd = md5($request->input('pwd_actuel'));
-        $pwd_nouveau = md5($request->input('pwd_nouveau'));
-        $pwd_confirmer = md5($request->input('pwd_confirmer'));
+        $pwd = $request->input('pwd_actuel');
+        $pwd_nouveau = $request->input('pwd_nouveau');
+        $pwd_confirmer = $request->input('pwd_confirmer');
         $gsbFrais = new GsbFrais();
         $res = $gsbFrais->getInfosVisiteur($login,$pwd);
         
         //ajout commentaire
-        if(empty($res))
+        if(empty($pwd))
         {
-            //$erreur = "Mot de passe incorrecte";
-            //return back()->with('erreur', $erreur);
+            $erreur = "Mot de passe incorrecte";
+            return back()->with('erreur', $erreur);
             //return redirect('/');
         }
         else if($pwd == $pwd_nouveau)
@@ -39,9 +39,8 @@ class ChangerMdpController extends Controller
         }
         else
         {
-            $visiteur = $res[0];
-            $id = $visiteur->id;
-            $gsbFrais->majMotDePasse($id, $pwd_nouveau);
+            $id = Session::get('id');
+            $gsbFrais->majMotDePasse($id, md5($pwd_nouveau));
             //return redirect('/');
             return back()->with('status', 'Mise à jour effectuée!');
         }
