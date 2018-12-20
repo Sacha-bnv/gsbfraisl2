@@ -49,6 +49,9 @@
                             @endif
                                 <li><a href="{{ url('/getChangerMdp') }}" data-toggle="collapse" data-target=".navbar-collapse.in">Changer mdp</a></li>
                             @if (Session::get('role') == 'Responsable')
+                                <li><a href="{{ url('/getNewVisiteur') }}" data-toggle="collapse" data-target=".navbar-collapse.in">Nouveau visiteur</a></li>
+                            <li><a href="{{ url('/getNewVisiteur') }}" data-toggle="collapse" data-target=".navbar-collapse.in">Nouveau visiteur</a></li>
+                            <li><a href="{{ url('/getGererVisiteurs') }}" data-toggle="collapse" data-target=".navbar-collapse.in">Gérer</a></li>
                                 <li><a href="{{ url('/nouveauVisiteur') }}" data-toggle="collapse" data-target=".navbar-collapse.in">Nouveau visiteur</a></li>
                             @endif
                             <li><a href="{{ url('/getModifications') }}" data-toggle="collapse" data-target=".navbar-collapse.in">Modifications</a></li>
